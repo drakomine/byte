@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LORYNTO - Affordable Website Solutions</title>
+    <!-- Load Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* --- VANTA THEME COLORS --- */
+        :root {
+            --primary-pink: #ec4899; 
+            --primary-purple: #a855f7;
+            --card-bg: #111111;
+            --bg-black: #000000;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-black);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* --- GRADIENTS & TEXT --- */
+        .header-banner {
+            background: linear-gradient(90deg, #ec4899 0%, #a855f7 100%);
+        }
+        .main-gradient-text {
+            background: linear-gradient(90deg, #fff, #ec4899, #a855f7, #fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 900;
+            background-size: 200% auto;
+        }
+        .cta-gradient-bg {
+            background: linear-gradient(90deg, #ff80b5 0%, #9089fc 100%);
+        }
+
+        /* --- ANIMATIONS --- */
+        .animate-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-in.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- SPECIFIC CARD DESIGN (Exact Match) --- */
+        .product-card {
+            background-color: var(--card-bg);
+            border: 1px solid #27272a; /* Gray-800 */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-pink);
+            box-shadow: 0 10px 40px -10px rgba(236, 72, 153, 0.3);
+        }
+        
+        /* Top gradient line on cards */
+        .card-gradient-line {
+            height: 2px;
+            width: 100%;
+            background: linear-gradient(90deg, #ec4899, #a855f7);
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.7;
+        }
+
+        /* Purchase Button Gradient */
+        .btn-gradient {
+            background: linear-gradient(90deg, #d946ef, #8b5cf6);
+            transition: opacity 0.3s;
+        }
+        .btn-gradient:hover {
+            opacity: 0.9;
+        }
+
+        /* Mobile Menu Transition */
+        #mobile-menu {
+            transition: all 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        /* FAQ Accordion Transition */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px; /* Approximate height for content */
+            padding-top: 1rem;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Top Notification Banner -->
+    <div class="header-banner text-center py-2 text-xs sm:text-sm font-bold text-white tracking-wide px-4">
+        Websites at an affordable price — 1 Year Support Included!
+    </div>
+
+    <!-- Sticky Navbar -->
+    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <div class="flex items-center gap-2">
+                    <!-- LORYNTO Logo Style -->
+                    <span class="text-xl font-extrabold tracking-tight text-white">LORYNTO<span class="text-pink-500">.</span></span>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-8 text-sm font-medium text-gray-400">
+                    <a href="#about" class="hover:text-white transition-colors">About Us</a>
+                    <a href="#features" class="hover:text-white transition-colors">Features</a>
+                    <a href="#plans" class="hover:text-white transition-colors">Plans</a>
+                    <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+                </nav>
+
+                <!-- Buttons -->
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="https://discord.com/channels/1427358517777666058/1438152411905659053" target="_blank" class="text-sm font-bold text-gray-300 hover:text-white transition-colors">Discord</a>
+                    <a href="https://discord.com/channels/1427358517777666058/1438152411905659053" target="_blank" class="btn-gradient text-white font-bold py-2 px-5 rounded-md text-sm shadow-lg shadow-purple-500/30">
+                        Order Now
+                    </a>
+                </div>
+
+                <!-- Mobile Hamburger -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-300 p-2 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+
+            <!-- Mobile Dropdown -->
+            <div id="mobile-menu" class="md:hidden border-t border-gray-800 bg-black">
+                <div class="flex flex-col space-y-4 py-6 px-4 text-sm font-medium text-gray-400">
+                    <a href="#about" class="hover:text-pink-400">About Us</a>
+                    <a href="#features" class="hover:text-pink-400">Features</a>
+                    <a href="#plans" class="hover:text-pink-400">Plans</a>
+                    <a href="#faq" class="hover:text-pink-400">FAQ</a>
+                    <a href="https://discord.com/channels/1427358517777666058/1438152411905659053" class="text-pink-500 font-bold">Order Now &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. Hero Section -->
+        <section class="relative pt-20 pb-28 text-center overflow-hidden">
+            <!-- Background glow -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-900/20 rounded-full blur-[120px] -z-10"></div>
+            
+            <div class="max-w-5xl mx-auto px-4 animate-in">
+                <!-- Logo Icon Centered -->
+                <div class="flex justify-center mb-8">
+                     <svg class="w-16 h-16 text-white drop-shadow-[0_0_15px_rgba(236,72,153,0.5)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                </div>
+
+                <p class="text-sm sm:text-base font-bold text-white mb-2 tracking-wide">Affordable</p>
+                <h1 class="text-5xl sm:text-6xl md:text-7xl font-black leading-tight mb-6 text-white">
+                    Websites Built for <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">Business Growth!</span>
+                </h1>
+
+                <!-- Rating Line -->
+                <div class="flex items-center justify-center gap-4 text-xs sm:text-sm text-gray-400 mb-8 font-medium">
+                    <div class="flex text-yellow-400">★★★★★ 5.0</div>
+                    <div class="hidden sm:block">|</div>
+                    <div>7 Days Delivery</div>
+                    <div class="hidden sm:block">|</div>
+                    <div>1 Year Support</div>
+                </div>
+
+                <p class="text-gray-400 max-w-2xl mx-auto text-base sm:text-lg mb-10 px-4">
+                    LORYNTO crafts modern, high-speed, and custom web solutions for personal brands and growing companies starting at ₹3000.
+                </p>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-4 px-4">
+                    <a href="#plans" class="btn-gradient text-white font-bold py-3 px-8 rounded-md text-sm shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] transition-all transform hover:-translate-y-0.5">
+                        View Plans
+                    </a>
+                    <a href="https://discord.com/channels/1427358517777666058/1438152411905659053" target="_blank" class="bg-[#1a1a1a] border border-gray-700 text-white font-bold py-3 px-8 rounded-md text-sm hover:bg-[#252525] transition-colors flex items-center justify-center gap-2">
+                        Join Our Discord
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Plans Section (Vanta Design + Detailed Features) -->
+        <section id="plans" class="py-20 px-4">
+            <div class="max-w-7xl mx-auto">
+                <!-- Tabs (Visual Only) -->
+                <div class="flex flex-wrap justify-center gap-2 mb-12 animate-in">
+                    <button class="btn-gradient text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide">All Plans</button>
+                    <button class="bg-[#1a1a1a] text-gray-400 border border-gray-800 hover:border-gray-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide transition-colors">Websites</button>
+                    <button class="bg-[#1a1a1a] text-gray-400 border border-gray-800 hover:border-gray-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide transition-colors">E-Commerce</button>
+                </div>
+
+                <!-- Grid -->
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Features Section -->
+        <section id="features" class="py-20 px-4 bg-[#0a0a0a]">
+            <div class="max-w-7xl mx-auto text-center">
+                <p class="text-pink-500 font-bold text-sm uppercase tracking-wider mb-2 animate-in">Why Choose LORYNTO?</p>
+                <h2 class="text-4xl font-black text-white mb-16 animate-in">Core Values</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                     <!-- Feature 1 -->
+                     <div class="product-card p-8 rounded-2xl animate-in">
+                        <div class="card-gradient-line"></div>
+                        <div class="text-pink-500 mb-4 mt-2">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Speed Optimization</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">We build for speed, ensuring your website loads instantly to keep visitors engaged.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="product-card p-8 rounded-2xl animate-in" style="transition-delay: 0.1s">
+                        <div class="card-gradient-line"></div>
+                        <div class="text-pink-500 mb-4 mt-2">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zM4 6h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM4 6V4a2 2 0 012-2h12a2 2 0 012 2v2H4z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Affordable Pricing</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">Professional quality accessible to everyone. We build affordable websites without compromising quality.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="product-card p-8 rounded-2xl animate-in" style="transition-delay: 0.2s">
+                        <div class="card-gradient-line"></div>
+                        <div class="text-pink-500 mb-4 mt-2">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.143a2.493 2.493 0 00-1.748-2.498A18.064 18.064 0 0012 2a18.064 18.064 0 00-7.87.863 2.493 2.493 0 00-1.747 2.498A18.064 18.064 0 002 12c0 3.321 1.036 6.438 2.87 8.86a2.493 2.493 0 001.747 2.498A18.064 18.064 0 0012 22a18.064 18.064 0 007.87-.863 2.493 2.493 0 001.748-2.498A18.064 18.064 0 0022 12c0-3.321-1.036-6.438-2.87-8.86z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">1 Year Support</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">Minimal edits can be done during the support period. We are here to help.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. FAQ (Accordion - Fixed) -->
+        <section id="faq" class="py-20 px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                 <div class="inline-block bg-[#1a1a1a] border border-gray-800 rounded-full px-4 py-1.5 mb-6 animate-in">
+                    <span class="text-xs text-pink-400 font-bold">Got questions? We've got answers</span>
+                </div>
+                <h2 class="text-4xl font-black text-white mb-12 animate-in">
+                    Web Development <span class="text-pink-500">FAQ</span>
+                </h2>
+
+                <div class="space-y-4 text-left">
+                    <!-- Q1 -->
+                    <div class="faq-item bg-[#111] border border-gray-800 rounded-lg p-4 cursor-pointer hover:border-gray-600 transition-colors animate-in">
+                        <div class="flex justify-between items-center font-bold text-white">
+                            How long does it take to build?
+                            <span class="text-gray-500 faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer text-gray-400 text-sm leading-relaxed">
+                            Our standard delivery time is 7 days for most plans (Starter, Standard, Business). Custom or E-commerce projects may take slightly longer depending on complexity, but we prioritize speed.
+                        </div>
+                    </div>
+                    
+                    <!-- Q2 -->
+                    <div class="faq-item bg-[#111] border border-gray-800 rounded-lg p-4 cursor-pointer hover:border-gray-600 transition-colors animate-in">
+                         <div class="flex justify-between items-center font-bold text-white">
+                            What does the 1 Year Support cover?
+                            <span class="text-gray-500 faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer text-gray-400 text-sm leading-relaxed">
+                            The 1 Year Support includes technical maintenance, bug fixes, and minimal content edits (like changing text or images). Major design changes or adding new features are not included but can be requested as add-ons.
+                        </div>
+                    </div>
+                    
+                    <!-- Q3 -->
+                     <div class="faq-item bg-[#111] border border-gray-800 rounded-lg p-4 cursor-pointer hover:border-gray-600 transition-colors animate-in">
+                         <div class="flex justify-between items-center font-bold text-white">
+                            Can I upgrade my plan later?
+                            <span class="text-gray-500 faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer text-gray-400 text-sm leading-relaxed">
+                            Absolutely! You can upgrade your plan at any time as your business grows. You will only need to pay the price difference between your current plan and the new one.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. CONTACT US CTA -->
+        <section class="py-12 px-4">
+            <div class="max-w-6xl mx-auto rounded-3xl overflow-hidden relative cta-gradient-bg p-8 md:p-16 text-center animate-in">
+                <!-- Decorative Background Elements -->
+                <div class="absolute top-0 left-0 w-32 h-32 md:w-64 md:h-64 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+                <div class="absolute bottom-0 right-0 w-32 h-32 md:w-64 md:h-64 bg-purple-900/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none"></div>
+                
+                <div class="absolute right-4 bottom-4 md:right-10 md:bottom-0 opacity-50 md:opacity-100 pointer-events-none">
+                     <div class="w-20 h-20 bg-white/20 rounded-full blur-xl"></div>
+                </div>
+
+                <h2 class="text-2xl md:text-4xl font-black text-white mb-4 leading-tight relative z-10">
+                    Reach out to our support team instantly for any<br class="hidden md:block"> website assistance.
+                </h2>
+                <p class="text-white/90 text-sm md:text-base mb-8 relative z-10 max-w-2xl mx-auto">
+                    Do you have a project in mind? Join our Discord server to discuss requirements or view our feedback section.
+                </p>
+
+                <div class="flex flex-row justify-center gap-4 relative z-10">
+                    <a href="https://discord.com/channels/1427358517777666058/1438152411905659053" target="_blank" class="bg-white text-gray-900 font-bold py-3 px-6 md:px-8 rounded-md text-sm shadow-lg hover:bg-gray-100 transition-colors">
+                        Join Discord
+                    </a>
+                    <a href="#" class="bg-white/90 text-gray-900 font-bold py-3 px-6 md:px-8 rounded-md text-sm shadow-lg hover:bg-white transition-colors">
+                        Feedbacks
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. FOOTER -->
+        <footer class="bg-black pt-8 pb-8 px-4 border-t border-gray-900">
+            <div class="max-w-7xl mx-auto">
+                
+                <!-- Stats Row -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center mb-16 animate-in">
+                    <div>
+                        <p class="text-2xl font-extrabold text-white">7 Days</p>
+                        <p class="text-xs text-gray-500 mt-1">Delivery Time</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-extrabold text-white">50+</p>
+                        <p class="text-xs text-gray-500 mt-1">Websites Built</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-extrabold text-white">1 Year</p>
+                        <p class="text-xs text-gray-500 mt-1">Support Included</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-extrabold text-white">₹3k+</p>
+                        <p class="text-xs text-gray-500 mt-1">Affordable</p>
+                    </div>
+                </div>
+
+                <!-- Bottom Links -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-t border-gray-900 pt-8">
+                    <!-- Brand & Subscribe -->
+                    <div class="mb-8 md:mb-0 max-w-sm">
+                         <div class="flex items-center gap-2 mb-4">
+                            <span class="text-xl font-extrabold tracking-tight text-white">LORYNTO<span class="text-pink-500">.</span></span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-4 leading-relaxed">
+                            LORYNTO builds custom, affordable, high-speed websites tailored for small businesses and brands.
+                        </p>
+                        <div class="flex gap-2">
+                            <input type="email" placeholder="Enter your email" class="bg-[#111] border border-gray-800 text-white text-xs p-3 rounded-md w-full focus:outline-none focus:border-pink-500">
+                            <button class="btn-gradient text-white text-xs font-bold px-4 rounded-md hover:opacity-90">Subscribe</button>
+                        </div>
+                    </div>
+
+                    <!-- Links Columns -->
+                    <div class="flex gap-12 text-xs text-gray-400">
+                        <div class="flex flex-col gap-2">
+                            <h4 class="text-white font-bold mb-2">Quick Links</h4>
+                            <a href="#" class="hover:text-pink-500">About Us</a>
+                            <a href="#" class="hover:text-pink-500">Features</a>
+                            <a href="#" class="hover:text-pink-500">Plans</a>
+                            <a href="#" class="hover:text-pink-500">FAQ</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-900 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
+                    <p>&copy; 2025 LORYNTO. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // --- LOGIC ---
+
+        // 1. Mobile Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+        });
+
+        // 2. FAQ Accordion Toggle
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+
+        // 3. Animations Observer
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+
+            // 4. INJECT LORYNTO PLANS (WITH DETAILED FEATURES)
+            const grid = document.getElementById('product-grid');
+            const discordLink = "https://discord.com/channels/1427358517777666058/1438152411905659053";
+
+            const plans = [
+                { 
+                    name: "Starter Plan", 
+                    price: "₹3,000", 
+                    tag: "Personal", 
+                    stock: "∞", 
+                    desc: "For personal brands & small starters",
+                    features: [
+                        "Free Domain (1 Year)", 
+                        "1 Page Professional Landing Page", 
+                        "Fully Mobile Responsive", 
+                        "Basic SEO (Meta Tags + Keywords)", 
+                        "Modern Minimal UI",
+                        "Speed Optimization",
+                        "SSL Integration",
+                        "Contact Form (Email/WhatsApp)",
+                        "Social Media Integration",
+                        "Basic Security Setup",
+                        "1 Revision Included"
+                    ] 
+                },
+                { 
+                    name: "Standard Plan", 
+                    price: "₹4,500", 
+                    tag: "Growing", 
+                    stock: "∞", 
+                    desc: "For growing businesses",
+                    features: [
+                        "Free Domain + 1 Month Hosting",
+                        "3 Page Website (Home • About • Contact)",
+                        "Standard SEO Setup",
+                        "Logo Refinement (Basic)",
+                        "UI Enhancement + Smooth Animations",
+                        "Image & File Optimization",
+                        "WhatsApp & Call Integration",
+                        "Contact Form + Auto Email",
+                        "2 Revisions"
+                    ] 
+                },
+                { 
+                    name: "Business Plan", 
+                    price: "₹6,000", 
+                    tag: "Professional", 
+                    stock: "∞", 
+                    desc: "Complete professional website",
+                    features: [
+                        "5–6 Page Corporate Website",
+                        "Premium SEO (Schema • Meta • Speed)",
+                        "Custom Icons, Graphics & Brand Elements",
+                        "Blog/News Section (Optional)",
+                        "High-Speed CDN Setup",
+                        "Enhanced Security (Firewall Rules)",
+                        "Admin Dashboard (Basic)",
+                        "Backup Setup + Performance Boost",
+                        "3 Revisions"
+                    ] 
+                },
+                { 
+                    name: "E-Commerce Plan", 
+                    price: "₹12,000", 
+                    tag: "Store", 
+                    stock: "10", 
+                    desc: "Sell products & services online",
+                    features: [
+                        "Full Online Store (Cart + Checkout)",
+                        "Payment Gateway Integration",
+                        "Product Pages + Category Setup",
+                        "Inventory & Stock Management",
+                        "Order Email System",
+                        "Advanced SEO for Products",
+                        "Admin Store Panel",
+                        "10 Product Uploads Free",
+                        "4 Revisions"
+                    ] 
+                },
+                { 
+                    name: "Ultimate Custom", 
+                    price: "₹20,000+", 
+                    tag: "Custom", 
+                    stock: "5", 
+                    desc: "Fully custom, advanced web system",
+                    features: [
+                        "Fully Customized Website (No Limits)",
+                        "Premium UI/UX + Micro-Animations",
+                        "Unlimited Pages",
+                        "Full Dashboard + Admin Systems",
+                        "API Integrations",
+                        "Advanced Firewall & Security",
+                        "Performance Grade A+ Optimization",
+                        "Lifetime Support (T&C Apply)"
+                    ] 
+                }
+            ];
+
+            let html = '';
+            plans.forEach((plan, index) => {
+                // Generate full feature list for the card
+                const featureList = plan.features.map(f => `
+                    <li class="text-xs text-gray-400 border-b border-gray-800 py-2 last:border-0 flex items-start">
+                        <span class="text-pink-500 mr-2">🔹</span> ${f}
+                    </li>
+                `).join('');
+                
+                html += `
+                    <div class="product-card p-6 rounded-xl flex flex-col animate-in" style="transition-delay: ${index * 0.05}s">
+                        <div class="card-gradient-line"></div>
+                        
+                        <!-- Card Header -->
+                        <div class="mt-4 mb-4 flex justify-between items-start">
+                            <div class="w-10 h-10 rounded-lg bg-[#1a1a1a] flex items-center justify-center text-pink-500 shadow-inner">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l.487-.414v2h11.238v-2l.487.414a1 1 0 001.169-1.409l-7-14zM10 4.25l4 8H6l4-8z"/></svg>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono uppercase tracking-wider">${plan.tag}</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-white mb-1">${plan.name}</h3>
+                        <p class="text-2xl font-extrabold text-pink-500 mb-2">${plan.price}</p>
+                        <p class="text-xs text-gray-500 mb-6 italic">${plan.desc}</p>
+
+                        <!-- Features List (Expanded) -->
+                        <ul class="mb-8 flex-grow space-y-1">
+                            ${featureList}
+                        </ul>
+
+                        <a href="${discordLink}" target="_blank" class="block w-full text-center py-3 rounded-md font-bold btn-gradient text-white text-sm hover:opacity-90 transition-opacity mt-auto">
+                            Purchase
+                        </a>
+                    </div>
+                `;
+            });
+
+            if (grid) {
+                grid.innerHTML = html;
+                grid.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+            }
+        });
+    </script>
+</body>
+</html>
